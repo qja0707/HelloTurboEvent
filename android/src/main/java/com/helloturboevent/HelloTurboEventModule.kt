@@ -2,6 +2,9 @@ package com.helloturboevent
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
+import android.util.Log
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 @ReactModule(name = HelloTurboEventModule.NAME)
 class HelloTurboEventModule(reactContext: ReactApplicationContext) :
@@ -11,10 +14,14 @@ class HelloTurboEventModule(reactContext: ReactApplicationContext) :
     return NAME
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  override fun multiply(a: Double, b: Double): Double {
-    return a * b
+  override fun testAsyncFunction() {
+    Timer().schedule(3000){
+      // 이벤트 발생
+      emitOnStringEvent("Hello from Android TurboModule!")
+
+      // 간단한 로그 출력
+      Log.d(NAME, "Emitted event after 3 seconds")
+    }
   }
 
   companion object {

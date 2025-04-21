@@ -48,12 +48,6 @@ export const onStringEvent = HelloTurboEvent.onStringEvent;
 
 TypeScript 인터페이스에서 네이티브 코드를 자동 생성하려면 코드젠을 실행해야 합니다.
 
-```bash
-# package.json에 다음 스크립트가 정의되어 있어야 합니다
-# "prepare": "react-native codegen"
-
-yarn prepare
-```
 
 코드젠이 실행되면 다음 파일들이 자동 생성됩니다:
 - iOS: `ios/HelloTurboEvent/RNHelloTurboEventSpec.h`
@@ -101,7 +95,53 @@ RCT_EXPORT_MODULE()
 @end
 ```
 
-4. React Native 앱에서 이벤트 수신하기
+## Android
+
+### Android에서 이벤트 발생시키기 (Kotlin)
+
+안드로이드에서도 코드젠을 통해 생성된 스펙을 사용하여 이벤트를 발생시킬 수 있습니다.
+
+```kotlin
+// android/src/main/java/com/helloturboevent/HelloTurboEventModule.kt
+package com.helloturboevent
+
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.module.annotations.ReactModule
+import android.util.Log
+import java.util.Timer
+import kotlin.concurrent.schedule
+
+@ReactModule(name = HelloTurboEventModule.NAME)
+class HelloTurboEventModule(reactContext: ReactApplicationContext) :
+  NativeHelloTurboEventSpec(reactContext) {
+
+  override fun getName(): String {
+    return NAME
+  }
+
+  override fun testAsyncFunction() {
+    Timer().schedule(3000) {
+      // 이벤트 발생
+      emitOnStringEvent("Hello from Android TurboModule!")
+
+      // 간단한 로그 출력
+      Log.d(NAME, "Emitted event after 3 seconds")
+    }
+  }
+
+  companion object {
+    const val NAME = "HelloTurboEvent"
+  }
+}
+```
+
+코틀린에서 이벤트를 발생시키는 주요 포인트:
+
+1. **상속**: `NativeHelloTurboEventSpec` 클래스를 상속받아 코드젠으로 생성된 기능을 활용합니다.
+
+2. **이벤트 발생**: `emitOnStringEvent()` 메소드를 사용하여 이벤트를 발생시킵니다.
+
+## React Native 앱에서 이벤트 수신하기
 
 ```tsx
 // App.tsx
@@ -134,14 +174,14 @@ export default function App() {
 }
 ```
 
-### 주요 특징
+## 주요 특징
 
 1. **코드젠 활용**: TypeScript 타입 정의에서 네이티브 코드가 자동 생성됩니다.
 2. **타입 안전성**: TypeScript 인터페이스를 통해 이벤트 타입이 보장됩니다.
 3. **성능 향상**: JSI(JavaScript Interface)를 활용하여 브릿지 오버헤드 없이 직접 네이티브 메소드 호출이 가능합니다.
 4. **이벤트 발생 방식**: `emitOn{EventName}` 형식의 메소드를 사용하여 이벤트를 발생시킵니다.
 
-### 레거시 방식과의 차이점
+## 레거시 방식과의 차이점
 
 1. **브릿지 우회**: Turbo Module은 JSI를 활용하여 브릿지를 통한 JSON 직렬화/역직렬화 과정을 생략합니다.
 2. **자동 코드 생성**: 인터페이스 정의로부터 보일러플레이트 코드가 자동 생성됩니다.
