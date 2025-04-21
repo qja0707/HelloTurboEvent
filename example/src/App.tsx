@@ -1,12 +1,25 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'hello-turbo-event';
-
-const result = multiply(3, 7);
+import { onStringEvent, testAsyncFunction } from 'hello-turbo-event';
+import { useEffect } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function App() {
+  useEffect(() => {
+    const listener = onStringEvent((event) => {
+      console.log(event);
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Result: nothing</Text>
+
+      <TouchableOpacity onPress={testAsyncFunction} style={styles.button}>
+        <Text>Test</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -16,5 +29,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    padding: 10,
+    backgroundColor: 'lightblue',
+    borderRadius: 5,
   },
 });

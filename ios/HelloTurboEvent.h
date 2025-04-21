@@ -1,6 +1,6 @@
 
 #import <HelloTurboEvent/RNHelloTurboEventSpec.h>
 
-@interface HelloTurboEvent : NSObject <NativeHelloTurboEventSpec>
+@interface HelloTurboEvent : NativeHelloTurboEventSpecBase <NativeHelloTurboEventSpec>
 
 @end
