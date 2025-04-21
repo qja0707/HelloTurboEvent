@@ -89,16 +89,12 @@ yarn prepare
 
 RCT_EXPORT_MODULE()
 
-// Promise 패턴을 사용하는 비동기 함수 구현
-- (void)testAsyncFunction:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+- (void)testAsyncFunction{
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     NSLog(@"HelloTurboEvent: Emitting event after 3 seconds");
     
     // onStringEvent 이벤트 발생시키기
     [self emitOnStringEvent:@"Hello from TurboModule!"];
-    
-    // Promise 완료
-    resolve(@"Success");
   });
 }
 

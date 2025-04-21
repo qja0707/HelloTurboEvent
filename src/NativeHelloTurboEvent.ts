@@ -5,7 +5,7 @@ import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
 export interface Spec extends TurboModule {
   readonly onStringEvent: EventEmitter<string>;
 
-  testAsyncFunction(): Promise<string>;
+  testAsyncFunction(): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('HelloTurboEvent');
