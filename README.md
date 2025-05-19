@@ -187,3 +187,7 @@ export default function App() {
 2. **자동 코드 생성**: 인터페이스 정의로부터 보일러플레이트 코드가 자동 생성됩니다.
 3. **이벤트 처리 방식**: `emitOn{EventName}` 메소드를 사용하여 더 명확하고 타입 안전한 이벤트 발생이 가능합니다.
 
+### 참고 문헌
+
+1. React Native Docs - Custom Events in Native Modules  
+   https://reactnative.dev/docs/the-new-architecture/native-modules-custom-events#step-1-update-the-specs-of-nativelocalstorage
